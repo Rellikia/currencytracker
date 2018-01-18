@@ -29,5 +29,11 @@ module Quotation
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+
+    Bitfinex::Client.configure do |conf|
+      conf.secret = ENV["BFX_API_SECRET"]
+      conf.api_key = ENV["BFX_API_KEY"]
+      conf.use_api_v2
+    end
   end
 end
