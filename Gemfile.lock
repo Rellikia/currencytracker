@@ -145,6 +145,7 @@ GEM
     thread_safe (0.3.6)
     tzinfo (1.2.4)
       thread_safe (~> 0.1)
+    uuidtools (2.1.5)
     vcr (4.0.0)
     webmock (3.3.0)
       addressable (>= 2.3.6)
@@ -169,6 +170,7 @@ DEPENDENCIES
   spring
   spring-watcher-listen (~> 2.0.0)
   tzinfo-data
+  uuidtools
   vcr
   webmock
 

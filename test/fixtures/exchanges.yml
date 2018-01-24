@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  uuid: MyString
+  name: MyString
+  volume: MyString
+  fee: MyString
+  currency: one
+
+two:
+  uuid: MyString
+  name: MyString
+  volume: MyString
+  fee: MyString
+  currency: two

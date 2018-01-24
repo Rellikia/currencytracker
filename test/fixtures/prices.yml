@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  uuid: MyString
+  quoted_currency: MyString
+  quoted_value: MyString
+  currency: one
+  exchange: one
+
+two:
+  uuid: MyString
+  quoted_currency: MyString
+  quoted_value: MyString
+  currency: two
+  exchange: two

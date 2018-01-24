@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  uuid: MyString
+  name: MyString
+  initials: MyString
+  volume: MyString
+  market_capitalization: MyString
+  image: MyString
+
+two:
+  uuid: MyString
+  name: MyString
+  initials: MyString
+  volume: MyString
+  market_capitalization: MyString
+  image: MyString
