@@ -1,3 +1,4 @@
 class V1::CurrencySerializer < ApplicationSerializer
-  attributes :uuid, :name, :initials, :volume, :market_captalization, :image
+  attributes :uuid, :name, :initials, :volume,
+  :market_captalization, :image, :exchanges, :prices
 end

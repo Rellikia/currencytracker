@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180124155536) do
+ActiveRecord::Schema.define(version: 20180126124109) do
 
   create_table "currencies", primary_key: "uuid", id: :string, limit: 42, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
@@ -43,6 +43,12 @@ ActiveRecord::Schema.define(version: 20180124155536) do
     t.datetime "updated_at", null: false
     t.index ["currency_uuid"], name: "index_prices_on_currency_uuid"
     t.index ["exchange_uuid"], name: "index_prices_on_exchange_uuid"
+  end
+
+  create_table "users", primary_key: "uuid", id: :string, limit: 42, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "api_key"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "exchanges", "currencies", column: "currency_uuid", primary_key: "uuid", on_delete: :cascade
