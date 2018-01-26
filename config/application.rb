@@ -21,9 +21,14 @@ module CurrencyTracker
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
 
+    Dir[Rails.root.join('lib/**/*.rb')].each { |f| require f }
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+
+    config.time_zone = 'America/Sao_Paulo'
+    config.active_record.default_timezone = :local
 
     # Only loads a smaller set of middleware suitable for API only apps.
     # Middleware like session, flash, cookies can be added back manually.
