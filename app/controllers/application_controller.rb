@@ -21,5 +21,3 @@ class ApplicationController < ActionController::API
     render json: {error: :bad_credentials}.to_json, status: :unauthorized
   end
 end
-
-# Authorization: Token token="vL4ozVslghtMdUwLKZQ0Wwtt"

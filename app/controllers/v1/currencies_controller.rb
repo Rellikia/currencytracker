@@ -1,4 +1,4 @@
-class V1::CurrenciesController < ApplicationController
+class V1::CurrenciesController < V1::ApiController
   before_action :set_currency, only: [:show]
 
   # GET /v1/currencies
