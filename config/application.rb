@@ -21,7 +21,8 @@ module CurrencyTracker
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
 
-    Dir[Rails.root.join('lib/**/*.rb')].each { |f| require f }
+    config.eager_load_paths << Rails.root.join('lib')
+    config.eager_load_paths << Rails.root.join('lib/rest_connectors')
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -36,5 +37,6 @@ module CurrencyTracker
     config.api_only = true
 
     config.middleware.use Rack::Attack
+    config.active_job.queue_adapter = :sidekiq
   end
 end

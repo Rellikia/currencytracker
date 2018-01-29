@@ -1,8 +1,8 @@
-module Connectors
+module RestConnectors
   class CryptonatorConnector
 
     def self.tickers(base, target)
-      response = Connectors::Base.call(
+      response = RestConnectors::Base.call(
         endpoint: "#{ENV['API_URL_CRYPTONATOR']}/#{}",
         method: 'get' )
     end

@@ -1,6 +1,6 @@
 require 'net/http'
 
-module Connectors
+module RestConnectors
   class Base
 
     HTTP_METHOD = { post: Net::HTTP::Post, put: Net::HTTP::Put, get: Net::HTTP::Get }

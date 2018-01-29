@@ -12,4 +12,9 @@ class CurrencyTrackerJob < ApplicationJob
       reschedule_job
     end
   end
+
+  def reschedule_job
+    retry_job wait: 30.seconds, queue: :default
+  end
+
 end
