@@ -28,9 +28,13 @@ gem 'rack-cors'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'dotenv-rails'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'faker'
+end
+
+group :test do
   gem 'database_cleaner'
   gem 'vcr'
   gem 'webmock'
@@ -49,6 +53,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'uuidtools'
 gem 'active_model_serializers'
 gem 'rack-attack'
+gem "lograge"
 
 # the hard-hitting background worker
 gem 'sidekiq'

@@ -10,7 +10,6 @@ class CreateExchanges < ActiveRecord::Migration[5.1]
       t.timestamps
     end
 
-    add_foreign_key :exchanges, :currencies, column: :currency_uuid, primary_key: :uuid, on_delete: :cascade
     add_index :exchanges, :currency_uuid
   end
 end

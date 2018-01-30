@@ -7,6 +7,7 @@ module RestConnectors
 
     def self.call(args={})
       begin
+        Rails.logger.debug args.to_s
         endpoint = args.fetch(:endpoint)
         method = args.fetch(:method).downcase.to_sym
         headers = args.fetch(:headers) { {} }
@@ -27,13 +28,13 @@ module RestConnectors
         case response
           when Net::HTTPSuccess, Net::HTTPCreated
             Rails.logger.info log_msg
-            JSON.parse(response.body).try(:with_indifferent_access)
+            JSON.parse(response.body)
           else
-            Rails.logger.error "error_key=rest_connection_fail #{log_msg}"
+            Rails.logger.error "error_key=rest_connection_error #{log_msg}"
             response
           end
       rescue => e
-        log_msg = "error_key=status_manager_job_fail message=[#{e.inspect} #{e.message}] location=[#{e.backtrace_locations.try(:first)}"
+        log_msg = "error_key=rest_connection_error message=[#{e.inspect} #{e.message}] location=[#{e.backtrace_locations.try(:first)}"
         Rails.logger.error log_msg
         {}
       end

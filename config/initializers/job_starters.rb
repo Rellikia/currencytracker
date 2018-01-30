@@ -1,7 +1,7 @@
 module CurrencyTracker
   class Application < Rails::Application
     config.after_initialize do
-      CurrencyTrackerJob.perform_later
+      CurrencyTrackerJob.perform_now
     end
   end
 end

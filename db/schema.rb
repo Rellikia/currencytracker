@@ -51,7 +51,4 @@ ActiveRecord::Schema.define(version: 20180126124109) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "exchanges", "currencies", column: "currency_uuid", primary_key: "uuid", on_delete: :cascade
-  add_foreign_key "prices", "currencies", column: "currency_uuid", primary_key: "uuid", on_delete: :cascade
-  add_foreign_key "prices", "exchanges", column: "exchange_uuid", primary_key: "uuid", on_delete: :cascade
 end

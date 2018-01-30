@@ -2,9 +2,8 @@
 require 'sidekiq'
 require 'sidekiq/web'
 
-
-Sidekiq::Web.use Rack::Auth::Basic do |username, password|
-  username == ENV["SIDEKIQ_USERNAME"] && password == ENV["SIDEKIQ_PASSWORD"]
+Sidekiq::Web.use(Rack::Auth::Basic) do |user, password|
+  [user, password] == [ENV["SIDEKIQ_USERNAME"], ENV["SIDEKIQ_PASSWORD"]]
 end
 
 Sidekiq::Web.set :session_secret, Rails.application.secrets[:secret_key_base]

@@ -10,8 +10,6 @@ class CreatePrices < ActiveRecord::Migration[5.1]
       t.timestamps
     end
 
-    add_foreign_key :prices, :currencies, column: :currency_uuid, primary_key: :uuid, on_delete: :cascade
-    add_foreign_key :prices, :exchanges, column: :exchange_uuid, primary_key: :uuid, on_delete: :cascade
     add_index :prices, :currency_uuid
     add_index :prices, :exchange_uuid
   end
