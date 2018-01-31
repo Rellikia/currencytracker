@@ -14,14 +14,14 @@ ActiveRecord::Schema.define(version: 20180126124109) do
 
   create_table "currencies", primary_key: "uuid", id: :string, limit: 42, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
-    t.string "initials"
+    t.string "symbol"
     t.string "volume"
     t.string "market_capitalization"
     t.string "image"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["initials"], name: "index_currencies_on_initials"
     t.index ["name"], name: "index_currencies_on_name"
+    t.index ["symbol"], name: "index_currencies_on_symbol"
   end
 
   create_table "exchanges", primary_key: "uuid", id: :string, limit: 42, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -35,8 +35,10 @@ ActiveRecord::Schema.define(version: 20180126124109) do
   end
 
   create_table "prices", primary_key: "uuid", id: :string, limit: 42, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string "quoted_currency"
-    t.string "quoted_value"
+    t.string "usd"
+    t.string "btc"
+    t.string "eur"
+    t.string "brl"
     t.string "currency_uuid"
     t.string "exchange_uuid"
     t.datetime "created_at", null: false

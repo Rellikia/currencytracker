@@ -19,7 +19,7 @@ class CurrencyTrackerJob < ApplicationJob
       TrackerService.new.updateCurrencies
       reschedule_job
     rescue Exception => e
-      Rails.logger.error "error_key=currency_tracker_job_error message=[#{e.inspect} #{e.message}] location=[#{e.backtrace_locations.try(:first)}] class=ProductsJob method=perform".freeze
+      Rails.logger.error "error_key=currency_tracker_job_error message=[#{e.inspect} #{e.message}] location=[#{e.backtrace_locations.try(:first)}] method=perform".freeze
       reschedule_job
     end
   end

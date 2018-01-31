@@ -23,6 +23,26 @@ environment ENV.fetch("RAILS_ENV") { "development" }
 #
 workers ENV.fetch("WEB_CONCURRENCY") { 2 }
 
+# Daemonize the server into the background. Highly suggest that
+# this be combined with “pidfile” and “stdout_redirect”.
+# The default is “false”.
+daemonize false
+
+# Store the pid of the server in the file at “path”.
+pidfile 'tmp/pids/puma.pid'
+# Use “path” as the file to store the server info state. This is
+# used by “pumactl” to query and control the server.
+state_path 'tmp/pids/puma.state'
+
+# Disable request logging.
+# The default is “false”.
+quiet
+
+# Bind the server to “url”. “tcp://”, “unix://” and “ssl://” are the only
+# accepted protocols.
+# The default is “tcp://0.0.0.0:9292”.
+bind "unix://tmp/sockets/puma.sock"
+
 # Use the `preload_app!` method when specifying a `workers` number.
 # This directive tells Puma to first boot the application and load code
 # before forking the application. This takes advantage of Copy On Write
@@ -51,6 +71,13 @@ workers ENV.fetch("WEB_CONCURRENCY") { 2 }
 #   ActiveRecord::Base.establish_connection if defined?(ActiveRecord)
 # end
 #
+on_worker_boot do
+	require 'active_record'
+
+  cwd = File.dirname(__FILE__) + "/.."
+  ActiveRecord::Base.connection.disconnect! rescue ActiveRecord::ConnectionNotEstablished
+  ActiveRecord::Base.establish_connection(YAML.load_file("#{cwd}/config/database.yml")[ENV['RAILS_ENV']])
+end
 
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart

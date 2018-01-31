@@ -12,28 +12,28 @@ class TrackerService
       currency.save!
 
       TARGETS.each do |target|
-        response = RestConnectors::Cryptonator.ticker(currency.initials, target)
+        next if currency.symbol.to_s == target.to_s
+
+        response = RestConnectors::Cryptonator.ticker(currency.symbol, target)
+
+        next unless response && response.fetch("success", false)
 
         ticker = response.fetch("ticker", nil) if response && response.fetch("ticker", nil)
 
-        next if ticker.fetch("price", nil).blank?
+        next if ticker.fetch("price", nil).present?
+        
+        currency.price = build_price(currency.price, target, ticker.fetch("price", nil), currency: currency)
+        currency.price.save!
 
-        currency.prices << build_price(target, ticker.fetch("price", nil), currency: currency)
-
-        Rails.logger.debug "##############################"
-
-        next if ticker.fetch("markets", nil).blank? || !currency.volume.blank?
+        next if ticker.fetch("markets", nil).blank? || !currency.volume.present?
 
         currency.volume = ticker.fetch("volume", nil)
 
         ticker["markets"].each do |market|
-          exchange = Exchange.new
-          exchange.name = market.fetch("name", nil)
-          exchange.volume = market.fetch("volume", nil)
-          exchange.currency = currency
+          exchange = build_exchange(target, market, currency)
           exchange.save!
-
-          exchange.prices << build_price(target, market.fetch("price", nil), exchange: exchange)
+          exchange.price = build_price(exchange.price, target, market.fetch("price", nil), exchange: exchange)
+          exchange.price.save!
         end
 
         Rails.logger.debug currency.attributes
@@ -52,21 +52,38 @@ class TrackerService
 
     if !currency.persisted?
       currency.name = currency_name
-      currency.initials = ticker.fetch("symbol", nil).downcase
-      currency.image = "#{ENV["CURRENCY_IMAGE_URL_BASE"]}/#{currency.initials}.png"
+      currency.symbol = ticker.fetch("symbol", nil).downcase
+      currency.image = "#{ENV["CURRENCY_IMAGE_URL_BASE"]}/#{currency.symbol}.png"
+      Rails.logger.info "name=#{currency.name} symbol=#{currency.symbol} message=[new currency found]"
     end
 
     currency.market_capitalization = ticker.fetch("market_cap_usd", nil)
     currency
   end
 
-  def build_price(quoted_currency, quoted_value, associations)
-    price = Price.new
-    price.quoted_currency = quoted_currency
-    price.quoted_value = quoted_value
-    price.currency = associations[:currency]
-    price.exchange = associations[:exchange]
-    price.save!
+  def build_price(price, quoted_currency, quoted_value, associations)
+    unless price.present?
+      price = Price.new
+      price.currency = associations[:currency] if associations[:currency].present?
+      price.exchange = associations[:exchange] if associations[:exchange].present?
+    end
+
+    price.send(quoted_currency, quoted_value)
+    price
+  end
+
+  def build_exchange(target, market, currency)
+    exchange = currency.exchanges.select { |e| e.name == market["name"] }.first if currency.exchanges.present?
+    
+    unless exchange.present?
+      exchange = Exchange.new
+      exchange.name = market.fetch("name", nil)
+      exchange.currency = associations[:currency] if associations[:currency]
+      Rails.logger.info "name=#{currency.name} symbol=#{currency.symbol} exchange=#{exchange.name} message=[new exchange listing currency]"
+    end
+
+    exchange.volume = market.fetch("volume", nil)
+    exchange
   end
 
 end

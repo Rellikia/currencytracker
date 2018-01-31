@@ -24,7 +24,7 @@ module RestConnectors
           http.request(request)
         end
 
-        log_msg = "class=RestConnector method=call url=[#{url}] request=[#{request.inspect} #{request.try(:body)}] response=[#{response.inspect} #{response.try(:body)}]"
+        log_msg = "class=RestConnector method=call url=[#{url}] request=[#{request.inspect} #{request.try(:body)}] response=[#{response.inspect} #{response.try(:body).truncate(500)}]"
         case response
           when Net::HTTPSuccess, Net::HTTPCreated
             Rails.logger.info log_msg

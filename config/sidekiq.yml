@@ -2,6 +2,9 @@
 :verbose: true
 :pidfile: ./tmp/pids/sidekiq.pid
 :logfile: ./log/sidekiq.log
-:concurrency:  25
+development:  
+  :concurrency: 5
+production:  
+  :concurrency: 20
 :queues:
   - default

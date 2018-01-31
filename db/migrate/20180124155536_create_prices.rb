@@ -2,8 +2,10 @@ class CreatePrices < ActiveRecord::Migration[5.1]
   def change
     create_table :prices, id: false do |t|
       t.string :uuid, limit: 42, primary_key: true, null: false
-      t.string :quoted_currency
-      t.string :quoted_value
+      t.string :usd
+      t.string :btc
+      t.string :eur
+      t.string :brl
       t.string :currency_uuid, foreign_key: true
       t.string :exchange_uuid, foreign_key: true
 
