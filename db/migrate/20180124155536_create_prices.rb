@@ -6,8 +6,8 @@ class CreatePrices < ActiveRecord::Migration[5.1]
       t.string :btc
       t.string :eur
       t.string :brl
-      t.string :currency_uuid, foreign_key: true
-      t.string :exchange_uuid, foreign_key: true
+      t.string :currency_uuid
+      t.string :exchange_uuid
 
       t.timestamps
     end
