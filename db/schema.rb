@@ -12,7 +12,10 @@
 
 ActiveRecord::Schema.define(version: 20180126124109) do
 
-  create_table "currencies", primary_key: "uuid", id: :string, limit: 42, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "currencies", primary_key: "uuid", id: :string, limit: 42, force: :cascade do |t|
     t.string "name"
     t.string "symbol"
     t.string "volume"
@@ -24,7 +27,7 @@ ActiveRecord::Schema.define(version: 20180126124109) do
     t.index ["symbol"], name: "index_currencies_on_symbol"
   end
 
-  create_table "exchanges", primary_key: "uuid", id: :string, limit: 42, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "exchanges", primary_key: "uuid", id: :string, limit: 42, force: :cascade do |t|
     t.string "name"
     t.string "volume"
     t.string "fee"
@@ -34,7 +37,7 @@ ActiveRecord::Schema.define(version: 20180126124109) do
     t.index ["currency_uuid"], name: "index_exchanges_on_currency_uuid"
   end
 
-  create_table "prices", primary_key: "uuid", id: :string, limit: 42, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "prices", primary_key: "uuid", id: :string, limit: 42, force: :cascade do |t|
     t.string "usd"
     t.string "btc"
     t.string "eur"
@@ -47,7 +50,7 @@ ActiveRecord::Schema.define(version: 20180126124109) do
     t.index ["exchange_uuid"], name: "index_prices_on_exchange_uuid"
   end
 
-  create_table "users", primary_key: "uuid", id: :string, limit: 42, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "users", primary_key: "uuid", id: :string, limit: 42, force: :cascade do |t|
     t.string "api_key"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
