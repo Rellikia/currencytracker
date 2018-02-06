@@ -3,7 +3,7 @@ class V1::CurrenciesController < V1::ApiController
 
   # GET /v1/currencies
   def index
-    @currencies = Currency.all
+    @currencies = Currency.all.includes(:exchanges, :price).order :created_at
 
     render json: @currencies
   end
