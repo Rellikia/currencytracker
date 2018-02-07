@@ -3,11 +3,21 @@ class TrackerService
   TARGETS = [:usd, :btc, :eur, :brl]
   IGNORE_ERRORS = ["Pair not found"]
 
+  def initialize
+    @repetitionsFirstCall = 0
+    @repetitionsSecondCall = 0
+  end
+
   def updateCurrencies
     Rails.logger.debug "method=updateCurrencies class=TrackerService"
     results = RestConnectors::CoinMarketCap.tickers
 
     unless results.present?
+      Rails.logger.debug "message=[trying #{@repetitionsFirstCall + 1}]"
+      @repetitionsFirstCall += 1
+      if @repetitionsFirstCall >= 3
+        return
+      end
       updateCurrencies
       return
     end
@@ -18,6 +28,7 @@ class TrackerService
       currency.save!
 
       TARGETS.each do |target|
+        @repetitionsSecondCall = 0;
         if currency.symbol.to_s == target.to_s
           currency.price.btc = "1" if currency.price.present? && target.to_s == "btc"
           currency.price.save!
@@ -35,6 +46,11 @@ class TrackerService
     response = RestConnectors::Cryptonator.ticker(currency.symbol, target)
 
     unless response && response.fetch("success", nil) && response.fetch("ticker", nil)
+      Rails.logger.debug "message=[trying #{@repetitionsSecondCall + 1}] currency=#{currency.symbol} target=#{target}"
+      @repetitionsSecondCall += 1
+      if @repetitionsSecondCall >= 3
+        return
+      end
       get_tickers(currency, target) unless IGNORE_ERRORS.include?(response.fetch("error", ""))
       return
     end
