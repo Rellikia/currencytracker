@@ -15,13 +15,26 @@ gem 'rails', '~> 5.1.4'
 # gem 'mysql2', '>= 0.3.18', '< 0.5'
 
 # Use postgresql as the database for Active Record
-gem 'pg', '~> 0.18'
+gem 'pg', '~> 0.21'
+
 # Use Puma as the app server
 gem 'puma', '~> 3.7'
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
-# Use Redis adapter to run Action Cable in production
-gem 'redis'
+
+# Use Redis Rails to set up a Redis backed Cache and / or Session
+gem 'redis-rails', '~> 5.0'
+
+# Use Sidekiq as a background job processor through Active Job
+gem 'sidekiq', '~> 5.0'
+
+# for sidekiq's web UI
+gem 'sinatra', require: false
+
+# Use Clockwork for recurring background tasks without needing cron
+# gem 'clockwork', '~> 2.0'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -56,12 +69,14 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
+# Create uuid for models
 gem 'uuidtools'
-gem 'active_model_serializers'
-gem 'rack-attack'
-gem "lograge"
 
-# the hard-hitting background worker
-gem 'sidekiq'
-# for sidekiq's web UI
-gem 'sinatra', require: false
+# Serializer
+gem 'active_model_serializers'
+
+# Protect
+gem 'rack-attack'
+
+# Reduce default rails logs
+gem "lograge"

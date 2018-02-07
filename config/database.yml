@@ -1,7 +1,8 @@
+---
 default: &default
   adapter: postgresql
   encoding: utf8
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  pool: 10
   username: root
   password: root
   host: localhost
@@ -10,17 +11,12 @@ default: &default
 development:
   <<: *default
   database: currencytracker_dev
+  # url: <%= ENV['DATABASE_URL'].gsub('?', '_dev?') %>
 
-# Warning: The database defined as "test" will be erased and
-# re-generated from your development database when you run "rake".
-# Do not set this db to the same as development or production.
 test:
   <<: *default
   database: currencytracker_test
+  # url: <%= ENV['DATABASE_URL'].gsub('?', '_test?') %>
 
 production:
-  <<: *default
-  database: <%= ENV['CURRENCYTRACKER_DATABASE_NAME'] %>
-  host: <%= ENV['CURRENCYTRACKER_DATABASE_HOST'] %>
-  username: <%= ENV['CURRENCYTRACKER_DATABASE_USERNAME'] %>
-  password: <%= ENV['CURRENCYTRACKER_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>

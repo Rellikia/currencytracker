@@ -1,23 +1,11 @@
-# WEB UI
-require 'sidekiq'
-require 'sidekiq/web'
+require 'sidekiq/api'
 
-Sidekiq::Web.use(Rack::Auth::Basic) do |user, password|
-  [user, password] == [ENV["SIDEKIQ_USERNAME"], ENV["SIDEKIQ_PASSWORD"]]
-end
-
-Sidekiq::Web.set :session_secret, Rails.application.secrets[:secret_key_base]
+sidekiq_config = { url: ENV['ACTIVE_JOB_URL'] }
 
 Sidekiq.configure_server do |config|
-  config.redis = {
-    url: ENV["REDIS_URL"] || "redis://localhost:6379",
-    network_timeout: 5
-  }
+  config.redis = sidekiq_config
 end
 
 Sidekiq.configure_client do |config|
-  config.redis = {
-    url: ENV["REDIS_URL"] || "redis://localhost:6379",
-    network_timeout: 5
-  }
+  config.redis = sidekiq_config
 end
