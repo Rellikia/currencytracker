@@ -1,28 +1,28 @@
 ---
-default: &default
-  adapter: postgresql
-  encoding: utf8
-  pool: 10
-  username: root
-  password: root
-  host: localhost
+# default: &default
+#   adapter: postgresql
+#   encoding: utf8
+#   pool: 10
+#   username: root
+#   password: root
+#   host: localhost
   # socket: /var/run/mysqld/mysqld.sock
 
 development:
-  <<: *default
-  database: currencytracker_dev
-  # url: <%= ENV['DATABASE_URL'].gsub('?', '_dev?') %>
+  # <<: *default
+  # database: currencytracker_development
+  url: <%= ENV['DATABASE_URL'].gsub('?', '_development?') %>
 
 test:
-  <<: *default
-  database: currencytracker_test
-  # url: <%= ENV['DATABASE_URL'].gsub('?', '_test?') %>
+  # <<: *default
+  # database: currencytracker_test
+  url: <%= ENV['DATABASE_URL'].gsub('?', '_test?') %>
 
 staging:
-  url: <%= ENV['DATABASE_URL'] %>
+  url: <%= ENV['DATABASE_URL'].gsub('?', '_staging?') %>
 
 preprod:
-  url: <%= ENV['DATABASE_URL'] %>
+  url: <%= ENV['DATABASE_URL'].gsub('?', '_preprod?') %>
 
 production:
   url: <%= ENV['DATABASE_URL'] %>

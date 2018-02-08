@@ -2,12 +2,13 @@ FROM ruby:2.5-alpine
 
 RUN apk update && apk add build-base nodejs postgresql-dev
 
-RUN mkdir /app
+RUN mkdir -p /app
 WORKDIR /app
 
-COPY Gemfile Gemfile.lock ./
-RUN bundle install --binstubs
+COPY Gemfile /app/Gemfile
+COPY Gemfile.lock /app/Gemfile.lock
+RUN bundle install
 
-COPY . .
+COPY . /app
 
-CMD puma -C config/puma.rb
+LABEL maintainer="Nick Janetakis <nick.janetakis@gmail.com>"

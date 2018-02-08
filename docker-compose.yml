@@ -1,29 +1,30 @@
-version: '2'
+version: '3'
 
 services:
   postgres:
     image: 'postgres:9.6-alpine'
     environment:
-      POSTGRES_USER: 'root'
-      POSTGRES_PASSWORD: 'root'
+      POSTGRES_USER: 'currencytrackeruser'
+      POSTGRES_PASSWORD: 'root123'
     ports:
-      - '5432:5432'
+      - '4325:4325'
     volumes:
       - 'postgres:/var/lib/postgresql/data'
 
   redis:
     image: 'redis:3.2-alpine'
-    command: redis-server --requirepass root
+    command: redis-server --requirepass root123
     ports:
-      - '6379:6379'
+      - '3796:3796'
     volumes:
       - 'redis:/data'
 
-  website:
+  web:
     depends_on:
       - 'postgres'
       - 'redis'
     build: .
+    command: "puma -C config/puma.rb"
     ports:
       - '3000:3000'
     volumes:
@@ -37,18 +38,6 @@ services:
       - 'redis'
     build: .
     command: sidekiq -C config/sidekiq.yml.erb
-    volumes:
-      - '.:/app'
-    env_file:
-      - '.env'
-
-  cable:
-    depends_on:
-      - 'redis'
-    build: .
-    command: puma -p 28080 cable/config.ru
-    ports:
-      - '28080:28080'
     volumes:
       - '.:/app'
     env_file:
