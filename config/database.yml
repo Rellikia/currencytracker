@@ -18,5 +18,11 @@ test:
   database: currencytracker_test
   # url: <%= ENV['DATABASE_URL'].gsub('?', '_test?') %>
 
+staging:
+  url: <%= ENV['DATABASE_URL'] %>
+
+preprod:
+  url: <%= ENV['DATABASE_URL'] %>
+
 production:
   url: <%= ENV['DATABASE_URL'] %>
