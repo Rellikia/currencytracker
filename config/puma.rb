@@ -96,9 +96,9 @@ preload_app!
 # recommended that you close any connections to the database before workers
 # are forked to prevent connection leakage.
 #
-# before_fork do
-#   ActiveRecord::Base.connection_pool.disconnect! if defined?(ActiveRecord)
-# end
+before_fork do
+  ActiveRecord::Base.connection_pool.disconnect! if defined?(ActiveRecord)
+end
 
 # The code in the `on_worker_boot` will be called if you are using
 # clustered mode by specifying a number of `workers`. After each worker
@@ -107,17 +107,10 @@ preload_app!
 # or connections that may have been created at application boot, as Ruby
 # cannot share connections between processes.
 #
-# on_worker_boot do
-#   ActiveRecord::Base.establish_connection if defined?(ActiveRecord)
-# end
-#
 on_worker_boot do
-	require 'active_record'
-
-  cwd = File.dirname(__FILE__) + "/.."
-  ActiveRecord::Base.connection.disconnect! rescue ActiveRecord::ConnectionNotEstablished
-  ActiveRecord::Base.establish_connection(YAML.load_file("#{cwd}/config/database.yml")[ENV['RAILS_ENV']])
+  ActiveRecord::Base.establish_connection if defined?(ActiveRecord)
 end
+#
 
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart

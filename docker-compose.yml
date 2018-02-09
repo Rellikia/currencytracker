@@ -7,15 +7,15 @@ services:
       POSTGRES_USER: 'currencytrackeruser'
       POSTGRES_PASSWORD: 'root123'
     ports:
-      - '4325:4325'
+      - '5432:5432'
     volumes:
       - 'postgres:/var/lib/postgresql/data'
 
   redis:
     image: 'redis:3.2-alpine'
-    command: redis-server --requirepass root123
+    command: 'redis-server --requirepass root123'
     ports:
-      - '3796:3796'
+      - '6379:6379'
     volumes:
       - 'redis:/data'
 
@@ -24,7 +24,7 @@ services:
       - 'postgres'
       - 'redis'
     build: .
-    command: "puma -C config/puma.rb"
+    command: 'puma -C config/puma.rb'
     ports:
       - '3000:3000'
     volumes:
@@ -37,7 +37,7 @@ services:
       - 'postgres'
       - 'redis'
     build: .
-    command: sidekiq -C config/sidekiq.yml.erb
+    command: 'sidekiq -C config/sidekiq.yml.erb'
     volumes:
       - '.:/app'
     env_file:

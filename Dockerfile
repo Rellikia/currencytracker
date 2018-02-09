@@ -1,8 +1,14 @@
 FROM ruby:2.5-alpine
 
-RUN apk update && apk add build-base nodejs postgresql-dev
+RUN apk add --update --no-cache \
+      build-base \
+      nodejs \
+      tzdata \
+      libxml2-dev \
+      libxslt-dev \
+      postgresql-dev
 
-RUN mkdir -p /app
+RUN mkdir /app
 WORKDIR /app
 
 COPY Gemfile /app/Gemfile
