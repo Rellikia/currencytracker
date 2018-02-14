@@ -1,4 +1,4 @@
-FROM ruby:2.5-alpine
+FROM ruby:2.5-alpine3.7
 
 RUN apk add --update --no-cache \
       build-base \
@@ -6,15 +6,18 @@ RUN apk add --update --no-cache \
       tzdata \
       libxml2-dev \
       libxslt-dev \
+      bash \
       postgresql-dev
 
-RUN mkdir /app
-WORKDIR /app
+ENV APP_ROOT /app
 
-COPY Gemfile /app/Gemfile
-COPY Gemfile.lock /app/Gemfile.lock
+RUN mkdir $APP_ROOT
+WORKDIR $APP_ROOT
+
+COPY Gemfile $APP_ROOT/Gemfile
+COPY Gemfile.lock $APP_ROOT/Gemfile.lock
 RUN bundle install
 
-COPY . /app
+COPY . $APP_ROOT
 
 LABEL maintainer="Nick Janetakis <nick.janetakis@gmail.com>"
