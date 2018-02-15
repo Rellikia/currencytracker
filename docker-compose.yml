@@ -2,23 +2,19 @@ version: '3'
 
 services:
   app:
-    build: .
+    image: 'danielalvarenga/currencytracker:latest'
     command: 'bundle exec puma -C config/puma.rb'
-    ports:
-      - '3000:3000'
     volumes:
       - '.:/app'
 
   sidekiq:
-    build: .
+    image: 'danielalvarenga/currencytracker:latest'
     command: 'sidekiq -C config/sidekiq.yml.erb'
     volumes:
       - '.:/app'
 
   web:
-    build:
-      context: .
-      dockerfile: 'Dockerfile-nginx'
+    image: 'danielalvarenga/nginx:latest'
     ports:
-      - '80:80'
+      - '8080:80'
       - '443:443'

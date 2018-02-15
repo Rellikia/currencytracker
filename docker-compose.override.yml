@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  postgres:
+  db:
     image: 'postgres:9.6-alpine'
     environment:
       POSTGRES_USER: 'currencytrackeruser'
@@ -9,7 +9,7 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - 'postgres:/var/lib/postgresql/data'
+      - 'db:/var/lib/postgresql/data'
 
   redis:
     image: 'redis:3.2-alpine'
@@ -21,18 +21,18 @@ services:
 
   app:
     depends_on:
-      - 'postgres'
+      - 'db'
       - 'redis'
     env_file:
       - '.env'
 
   sidekiq:
     depends_on:
-      - 'postgres'
+      - 'db'
       - 'redis'
     env_file:
       - '.env'
 
 volumes:
   redis:
-  postgres:
+  db:
