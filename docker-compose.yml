@@ -2,19 +2,19 @@ version: '3'
 
 services:
   app:
-    image: 'danielalvarenga/currencytracker:latest'
+    image: 'acrcurrencytracker.azurecr.io/currencytracker:latest'
     command: 'bundle exec puma -C config/puma.rb'
     volumes:
       - '.:/app'
 
   sidekiq:
-    image: 'danielalvarenga/currencytracker:latest'
+    image: 'acrcurrencytracker.azurecr.io/currencytracker:latest'
     command: 'sidekiq -C config/sidekiq.yml.erb'
     volumes:
       - '.:/app'
 
   web:
-    image: 'danielalvarenga/nginx:latest'
+    image: 'acrcurrencytracker.azurecr.io/nginx:latest'
     ports:
       - '8080:80'
       - '443:443'

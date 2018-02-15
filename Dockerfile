@@ -7,7 +7,8 @@ RUN apk add --update --no-cache \
       libxml2-dev \
       libxslt-dev \
       bash \
-      postgresql-dev
+      postgresql-dev \
+      mysql-dev
 
 ENV APP_ROOT /app
 
@@ -19,5 +20,3 @@ COPY Gemfile.lock $APP_ROOT/Gemfile.lock
 RUN bundle install
 
 COPY . $APP_ROOT
-
-LABEL maintainer="Nick Janetakis <nick.janetakis@gmail.com>"

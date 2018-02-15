@@ -11,7 +11,7 @@ end
 gem 'rails', '~> 5.1.4'
 
 # Use mysql as the database for Active Record
-# gem 'mysql2', '>= 0.3.18', '< 0.5'
+gem 'mysql2', '>= 0.3.18', '< 0.5'
 
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.21'

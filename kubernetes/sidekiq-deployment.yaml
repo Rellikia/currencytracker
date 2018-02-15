@@ -1,0 +1,37 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f ./../docker-compose.yml -f ./../docker-compose.production.yml
+    kompose.version: 1.9.0 (093c756)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: sidekiq
+  name: sidekiq
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: sidekiq
+    spec:
+      containers:
+      - args:
+        - sidekiq
+        - -C
+        - config/sidekiq.yml.erb
+        image: currencytracker.azurecr.io/currencytracker:latest
+        name: sidekiq
+        resources: {}
+        volumeMounts:
+        - mountPath: /app
+          name: sidekiq-claim0
+      restartPolicy: Always
+      volumes:
+      - name: sidekiq-claim0
+        persistentVolumeClaim:
+          claimName: sidekiq-claim0
+status: {}
