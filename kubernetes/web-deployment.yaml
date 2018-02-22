@@ -1,28 +1,23 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose convert -f ./../docker-compose.yml -f ./../docker-compose.production.yml
-    kompose.version: 1.9.0 (093c756)
-  creationTimestamp: null
-  labels:
-    io.kompose.service: web
   name: web
+  labels:
+    application: nginx
 spec:
   replicas: 1
-  strategy: {}
+  selector:
+    matchLabels:
+      application: nginx
   template:
     metadata:
-      creationTimestamp: null
       labels:
-        io.kompose.service: web
+        application: nginx
     spec:
       containers:
       - image: currencytracker.azurecr.io/nginx:latest
-        name: web
+        name: nginx
         ports:
         - containerPort: 80
         - containerPort: 443
-        resources: {}
       restartPolicy: Always
-status: {}

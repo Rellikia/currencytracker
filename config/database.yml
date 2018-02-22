@@ -1,28 +1,35 @@
 ---
-# default: &default
-#   adapter: postgresql
-#   encoding: utf8
-#   pool: 10
-#   username: root
-#   password: root
-#   host: localhost
+default: &default
+  adapter: mysql2
+  encoding: utf8
+  port: 3306
+  pool: 50
+  timeout: 5000
+  username: <%= ENV['DATABASE_USERNAME'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+  host: <%= ENV['DATABASE_HOST'] %>
   # socket: /var/run/mysqld/mysqld.sock
 
 development:
-  # <<: *default
-  # database: currencytracker_development
-  url: <%= ENV['DATABASE_URL'].gsub('?', '_development?') %>
+  <<: *default
+  adapter: postgresql
+  port: 5432
+  database: currencytracker_development
 
 test:
-  # <<: *default
-  # database: currencytracker_test
-  url: <%= ENV['DATABASE_URL'].gsub('?', '_test?') %>
+  <<: *default
+  adapter: postgresql
+  port: 5432
+  database: currencytracker_test
 
 staging:
-  url: <%= ENV['DATABASE_URL'].gsub('?', '_staging?') %>
+  <<: *default
+  database: currencytracker_staging
 
 preprod:
-  url: <%= ENV['DATABASE_URL'].gsub('?', '_preprod?') %>
+  <<: *default
+  database: currencytracker_preprod
 
 production:
-  url: <%= ENV['DATABASE_URL'] %>
+  <<: *default
+  database: currencytracker

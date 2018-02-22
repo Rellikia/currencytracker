@@ -18,3 +18,4 @@
 
 .env.production
 kubernetes/app-deployment.yaml
+kubernetes/sidekiq-deployment.yaml
