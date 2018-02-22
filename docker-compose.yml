@@ -1,6 +1,10 @@
 version: '3'
 
 services:
+  setup:
+    image: 'acrcurrencytracker.azurecr.io/currencytracker:latest'
+    command: "bundle exec rails db:migrate"
+
   app:
     image: 'acrcurrencytracker.azurecr.io/currencytracker:latest'
     command: 'bundle exec puma -C config/puma.rb'
@@ -9,7 +13,7 @@ services:
 
   sidekiq:
     image: 'acrcurrencytracker.azurecr.io/currencytracker:latest'
-    command: 'sidekiq -C config/sidekiq.yml.erb'
+    command: 'bundle exec sidekiq -C config/sidekiq.yml.erb'
     volumes:
       - '.:/app'
 

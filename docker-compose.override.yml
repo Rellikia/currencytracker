@@ -19,10 +19,17 @@ services:
     volumes:
       - 'redis:/data'
 
+  setup:
+    depends_on:
+      - 'db'
+    env_file:
+      - '.env'
+
   app:
     depends_on:
       - 'db'
       - 'redis'
+      - 'setup'
     env_file:
       - '.env'
 

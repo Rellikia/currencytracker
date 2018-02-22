@@ -1,9 +1,14 @@
 # sudo docker-compose -f docker-compose.yml -f docker-compose.production.yml up -d
-
 version: '3'
 
 services:
+  setup:
+    env_file:
+      - '.env.production'
+
   app:
+    depends_on:
+      - 'setup'
     env_file:
       - '.env.production'
 

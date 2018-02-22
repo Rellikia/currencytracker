@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+  labels:
+    application: nginx
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  - port: 443
+  selector:
+    application: nginx
+---
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: web
+  labels:
+    application: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      application: nginx
+  minReadySeconds: 1 # number of seconds after pod is up that it's considered ready (default 0)
+  strategy:
+    type: RollingUpdate # the other option is Recreate where all pods killed before update
+    maxUnavailable: 1 # max number of pods that can become unavailable during update
+    maxSurge: 1 # max number of extra pods created during deploy (3 + 1 in our case)
+  template:
+    metadata:
+      labels:
+        application: nginx
+    spec:
+      containers:
+      - image: currencytracker.azurecr.io/nginx:latest
+        name: nginx
+        ports:
+        - containerPort: 80
+        - containerPort: 443
+      restartPolicy: Always

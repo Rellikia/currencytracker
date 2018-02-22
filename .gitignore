@@ -17,5 +17,6 @@
 .byebug_history
 
 .env.production
-kubernetes/app-deployment.yaml
-kubernetes/sidekiq-deployment.yaml
+kubernetes/app.yaml
+kubernetes/sidekiq.yaml
+kubernetes/setup.yaml
