@@ -7,8 +7,6 @@ services:
       - '.env.production'
 
   app:
-    depends_on:
-      - 'setup'
     env_file:
       - '.env.production'
 

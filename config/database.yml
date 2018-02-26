@@ -12,14 +12,10 @@ default: &default
 
 development:
   <<: *default
-  adapter: postgresql
-  port: 5432
   database: currencytracker_development
 
 test:
   <<: *default
-  adapter: postgresql
-  port: 5432
   database: currencytracker_test
 
 staging:
