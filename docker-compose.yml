@@ -2,13 +2,13 @@ version: '3'
 
 services:
   setup:
-    image: 'acrcurrencytracker.azurecr.io/currencytracker:latest'
+    image: 'currencytracker:latest'
     command: "bundle exec rails db:create db:migrate db:seed"
 
   app:
     depends_on:
       - 'setup'
-    image: 'acrcurrencytracker.azurecr.io/currencytracker:latest'
+    image: 'currencytracker:latest'
     container_name: currencytracker_app
     command: 'bundle exec puma -C config/puma.rb'
     volumes:
@@ -19,7 +19,7 @@ services:
   sidekiq:
     depends_on:
       - 'setup'
-    image: 'acrcurrencytracker.azurecr.io/currencytracker:latest'
+    image: 'currencytracker:latest'
     container_name: sidekiq
     command: 'bundle exec sidekiq -C config/sidekiq.yml.erb'
     volumes:
@@ -28,7 +28,7 @@ services:
   web:
     depends_on:
       - 'app'
-    image: 'acrcurrencytracker.azurecr.io/nginx:latest'
+    image: 'nginx:latest'
     container_name: nginx
     ports:
       - '80:80'
