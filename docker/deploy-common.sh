@@ -37,7 +37,7 @@ deploy()
 
         echo -e "Deploying $colorYellow$project\n $noColor"
         echo -e "\xF0\x9F\x90\xB3 Build docker image...\n"
-        docker build -t $containerName:latest -f $dockerfilePath --build-arg RAILS_ENV=$envApplication ../ &&
+        docker build -t $containerName:latest -f $dockerfilePath --build-arg rails_env=$envApplication ../ &&
 
 
         if [ "$uploadImage" = "--upload-image" ]; then
