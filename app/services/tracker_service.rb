@@ -81,7 +81,7 @@ class TrackerService
 
     currency = Currency.where(name: currency_name).first_or_initialize
 
-    if !currency.persisted?
+    if !currency.uuid.present?
       currency.name = currency_name
       currency.symbol = ticker.fetch("symbol", nil).downcase
       currency.image = "#{ENV["CURRENCY_IMAGE_URL_BASE"]}/#{currency.symbol}.png"
@@ -95,6 +95,7 @@ class TrackerService
 
   def build_price(price, quoted_currency, quoted_value, associations)
     Rails.logger.debug "method=build_price quoted_currency=#{quoted_currency} quoted_value=#{quoted_value}"
+    
     unless price.present?
       price = Price.new
       price.currency = associations[:currency] if associations[:currency].present?

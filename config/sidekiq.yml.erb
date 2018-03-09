@@ -1,4 +1,14 @@
 ---
+:concurrency: 1
 :queues:
   - <%= ENV['ACTIVE_JOB_QUEUE_PREFIX'] %>_<%= ENV['RAILS_ENV'] %>_default
   - <%= ENV['ACTIVE_JOB_QUEUE_PREFIX'] %>_<%= ENV['RAILS_ENV'] %>_mailers
+
+tasks: &tasks
+  CurrencyTrackerJob:
+    every: ["30s"]
+    queue: <%= ENV['ACTIVE_JOB_QUEUE_PREFIX'] %>_<%= ENV['RAILS_ENV'] %>_default
+    description: 'Currency tracker job'
+
+:schedule:
+  <<: *tasks
