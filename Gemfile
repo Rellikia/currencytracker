@@ -79,3 +79,4 @@ gem 'rack-attack'
 
 # Reduce default rails logs
 gem "lograge"
+gem 'logstash-event'
